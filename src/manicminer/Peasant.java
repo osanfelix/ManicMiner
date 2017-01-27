@@ -15,6 +15,8 @@ public class Peasant extends Thread
 	State state = State.IDLE;
 	int gold,wood;
 	
+	int doneJobs = 0;
+	
 	public Peasant(String name, Resource job, Castle castle)
 	{
 		this.name	= name;
@@ -37,11 +39,8 @@ public class Peasant extends Thread
 				
 				// Extract the gold / wood
 				state = State.EXTRACTING_RESOURCE;
-				for(int i = 0; i < Capacity; i++)
-				{
-					if(job.getAmount() == 0)		// No resource available
-						break;
-					
+				while( (gold + wood) < Capacity && job.getAmount() > 0 )
+				{					
 					if(job.getType() == Resource.Type.GOLD)
 					{
 						gold += job.PerformExtraction();
@@ -65,10 +64,15 @@ public class Peasant extends Thread
 				gold = 0;
 				wood = 0;
 				
-				
-				// Check Job is finish
-				if(job.getAmount() == 0)
-					break;
+				if(job.getAmount() == 0)		// No current's job resource available
+				{
+					// Check Job is finish
+					if(doneJobs == 1)
+						break;
+					System.out.println("Changing work");
+					doneJobs++;
+					job = castle.getOtherJob(job.type);
+				}
 			}
 			state = State.IDLE;
 		}

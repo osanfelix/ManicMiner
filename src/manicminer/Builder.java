@@ -47,7 +47,10 @@ public class Builder extends Thread
 				state = State.BUILDING;
 				sleep(20000);
 				gold = 0; wood = 0;
-				castle.barracks++;
+				synchronized(castle)
+				{
+					castle.barracks++;
+				}
 			}
 		}	
 		catch (InterruptedException ex)
@@ -62,5 +65,10 @@ public class Builder extends Thread
 
 	public String getFullName() {
 		return name + "  (builder)";
+	}
+	
+	public String printAmount()
+	{
+		return "Gold: " + gold + ". Wood: " + wood;
 	}
 }

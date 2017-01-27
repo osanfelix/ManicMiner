@@ -22,6 +22,7 @@ public class ManicMiner
 	
 	static JLabel[] labelBuildersName		= new JLabel[NUM_BUILDERS];
 	static JLabel[] labelBuildersState		= new JLabel[NUM_BUILDERS];
+	static JLabel[] labelBuildersResources	= new JLabel[NUM_PEASANTS];
 	
 	static JLabel labelMineInfo			= new JLabel();
 	static JLabel labelForestInfo		= new JLabel();
@@ -44,6 +45,8 @@ public class ManicMiner
 		
 		// Create the castle
 		Castle castle = new Castle();
+		castle.setMine(goldMine);
+		castle.setForest(forest);
 		
 		// Create Peasants
 		Peasant[] peasants = new Peasant[NUM_PEASANTS];
@@ -66,7 +69,6 @@ public class ManicMiner
 			builders[i].start();
 		}
 		
-		
 		// Update GUI
 		while(true)
 		{
@@ -85,6 +87,7 @@ public class ManicMiner
 				{
 					labelBuildersName[i].setText(builders[i].getFullName());
 					labelBuildersState[i].setText(builders[i].getStateString());
+					labelBuildersResources[i].setText(builders[i].printAmount());
 				}
 				
 				// Update Reources & Buildings
@@ -132,10 +135,10 @@ public class ManicMiner
 		{
 			labelBuildersName[i]		= new JLabel();
 			labelBuildersState[i]		= new JLabel();
-			
+			labelBuildersResources[i]	= new JLabel();
 			panelLabels.add(labelBuildersName[i]);
 			panelLabels.add(labelBuildersState[i]);
-			panelLabels.add(new Label(""));
+			panelLabels.add(labelBuildersResources[i]);
 		}
 		
 		panelLabels.add(new Label("--------------"));
